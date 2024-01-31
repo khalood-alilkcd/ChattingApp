@@ -1,3 +1,9 @@
 *.log
 *.dll
 *.exe
+bin/
+obj/
+*.pdb
+*.json
+*.xml
+*.gz   
