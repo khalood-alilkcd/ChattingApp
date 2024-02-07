@@ -1,4 +1,5 @@
-﻿using ChattingApp.Contracts;
+﻿using System.Linq.Expressions;
+using ChattingApp.Contracts;
 using ChattingApp.Models;
 using ChattingApp.Persistence;
 
@@ -8,12 +9,17 @@ namespace ChattingApp.Repository
     {
         public ConversationRepo(AppDbContext context) : base(context)
         {
-           
+
         }
 
         public Task<Conversation> GetConvAsync(int userId, int roomId)
         {
-            var conv = FindByIdWithExpressions(c => c.Id.Equals(roomId), c => c.User.Id.Equals(userId));
+            List<Expression<Func<Conversation, bool>>> felters = new List<Expression<Func<Conversation, bool>>>
+            {
+                c => c.User.Id.Equals(userId),
+                c => c.RoomId.Equals(roomId)
+            };
+            var conv = FindByIdWithExpressions(felters);
             return conv;
         }
 
@@ -27,4 +33,5 @@ namespace ChattingApp.Repository
             Delete(convId);
         }
     }
+
 }

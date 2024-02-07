@@ -4,9 +4,9 @@ namespace ChattingApp.Contracts
 {
     public interface IMessageRepo
     {
-        Task<IReadOnlyList<Message>> GetAllMessageAsync(int convId, bool trackChanges); 
-        Task<Message> GetMessageAsync(int convId, int msgId, bool trackChanges);
-        void CreateMessageAsync(Message msg);
+        Task<IReadOnlyList<Message>> GetAllMessageAsync(int convId);
+        Task<Message> GetMessageAsync(int convId, int msgId);
+        void CreateMessage(Message msg);
         void DeleteMessage(int msgId);
     }
 }

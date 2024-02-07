@@ -2,6 +2,7 @@
 using ChattingApp.Models;
 using ChattingApp.Persistence;
 using System.Linq;
+using System.Linq.Expressions;
 namespace ChattingApp.Repository
 {
     public sealed class MessageRepo : RepoBase<Message>, IMessageRepo
@@ -10,21 +11,30 @@ namespace ChattingApp.Repository
         {
 
         }
-        
 
-        public async Task<IReadOnlyList<Message>> GetAllMessageAsync(int convId, bool trackChanges)
+
+        public async Task<IReadOnlyList<Message>> GetAllMessageAsync(int convId)
         {
-            var messageList = await FindAllWithExpression(c => c.Conversation.Id.Equals(convId), trackChanges);
+            var filter = new List<Expression<Func<Message, bool>>>
+            {
+                c => c.Conversation.Id.Equals(convId)
+            };
+            var messageList = await FindAllWithExpression(filter);
             return messageList;
         }
-       
-        public async Task<Message> GetMessageAsync(int convId , int msgId, bool trackChanges)
+
+        public async Task<Message> GetMessageAsync(int convId, int msgId)
         {
-            var msg = await FindByIdWithExpressions(u => u.Conversation.Id.Equals(convId) && u.Id.Equals(msgId), trackChanges);
+            var filter = new List<Expression<Func<Message, bool>>>
+            {
+                u => u.Conversation.Id.Equals(convId) ,
+                u => u.Id.Equals(msgId)
+            };
+            var msg = await FindByIdWithExpressions(filter);
             return msg;
         }
 
-        public void CreateMessageAsync(Message msg)
+        public void CreateMessage(Message msg)
         {
             Create(msg);
         }

@@ -1,4 +1,5 @@
-﻿using ChattingApp.Contracts;
+﻿using System.Linq.Expressions;
+using ChattingApp.Contracts;
 using ChattingApp.Models;
 using ChattingApp.Persistence;
 
@@ -6,11 +7,11 @@ namespace ChattingApp.Repository
 {
     public sealed class UserRepo : RepoBase<User>, IUserRepo
     {
-        
+
 
         public UserRepo(AppDbContext context) : base(context)
         {
-            
+
         }
 
         public async Task<IReadOnlyList<User>> GetAllUserAsync()
@@ -19,9 +20,13 @@ namespace ChattingApp.Repository
             return users;
         }
 
-        public async Task<IReadOnlyList<User>> GetAllUserByRoomId(int roomId, bool trackChanges)
+        public async Task<IReadOnlyList<User>> GetAllUserByRoomId(int roomId)
         {
-            var users = await FindAllWithExpression(u => u.Room.Id.Equals(roomId), trackChanges);
+            var filter = new List<Expression<Func<User, bool>>>
+            {
+                u => u.Room.Id.Equals(roomId)
+            };
+            var users = await FindAllWithExpression(filter);
             return users;
         }
 
@@ -34,15 +39,15 @@ namespace ChattingApp.Repository
         public void CreateUserAsync(User user)
         {
             Create(user);
-           
+
         }
 
         public void DeleteUser(int userId)
         {
             Delete(userId);
-            
+
         }
 
-        
+
     }
 }

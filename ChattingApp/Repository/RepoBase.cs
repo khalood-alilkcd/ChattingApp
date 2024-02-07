@@ -17,50 +17,35 @@ namespace ChattingApp.Repository
         public async Task<IReadOnlyList<T>> GetAll() => await _dbContext.Set<T>().ToListAsync();
 
 
-        public async Task<IReadOnlyList<T>> FindAllWithExpression(List<Expression<Func<T, bool>>> filters, List<Expression<T, object>>> includes = null)
+        public async Task<IReadOnlyList<T>> FindAllWithExpression(List<Expression<Func<T, bool>>> filters)
         {
-            IQueryable<T> query = _dbSet;
+            IQueryable<T> query = _dbContext.Set<T>();
 
             foreach (var filter in filters)
             {
                 query = query.Where(filter);
-            }
-
-            if (includes != null)
-            {
-                foreach (var include in includes)
-                {
-                    query = query.Include(include);
-                }
             }
 
             return await query.ToListAsync();
         }
 
-        public async Task<T> FindByIdWithExpressions(List<Expression<Func<T, bool>>> filters, List<Expression<T, object>>> includes = null)
+        public async Task<T> FindByIdWithExpressions(List<Expression<Func<T, bool>>> filters)
         {
-            IQueryable<T> query = _dbContext;
+            IQueryable<T> query = _dbContext.Set<T>();
 
             foreach (var filter in filters)
             {
                 query = query.Where(filter);
             }
 
-            if (includes != null)
-            {
-                foreach (var include in includes)
-                {
-                    query = query.Include(include);
-                }
-            }
 
-            return await query.ToListAsync();
+            return await query.SingleOrDefaultAsync();
         }
 
         public async Task<T> GetById(int id) => await _dbContext.Set<T>().FindAsync(id);
 
-        public void Create(T entity) =>  _dbContext.Set<T>().AddAsync(entity);
-        
+        public void Create(T entity) => _dbContext.Set<T>().AddAsync(entity);
+
 
         public void Delete(int id)
         {
@@ -72,6 +57,5 @@ namespace ChattingApp.Repository
             return _dbContext.SaveChangesAsync();
         }
 
-        
     }
 }

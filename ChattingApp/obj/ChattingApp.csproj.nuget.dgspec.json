@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ChattingApp\\ChattingApp\\ChattingApp.csproj": {}
+    "d:\\ChattingApp\\ChattingApp\\ChattingApp.csproj": {}
   },
   "projects": {
-    "D:\\ChattingApp\\ChattingApp\\ChattingApp.csproj": {
+    "d:\\ChattingApp\\ChattingApp\\ChattingApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ChattingApp\\ChattingApp\\ChattingApp.csproj",
+        "projectUniqueName": "d:\\ChattingApp\\ChattingApp\\ChattingApp.csproj",
         "projectName": "ChattingApp",
-        "projectPath": "D:\\ChattingApp\\ChattingApp\\ChattingApp.csproj",
+        "projectPath": "d:\\ChattingApp\\ChattingApp\\ChattingApp.csproj",
         "packagesPath": "C:\\Users\\jimmy\\.nuget\\packages\\",
-        "outputPath": "D:\\ChattingApp\\ChattingApp\\obj\\",
+        "outputPath": "d:\\ChattingApp\\ChattingApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
