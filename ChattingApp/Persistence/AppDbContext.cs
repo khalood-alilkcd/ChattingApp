@@ -1,6 +1,5 @@
 ﻿using ChattingApp.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 
 namespace ChattingApp.Persistence
 {
@@ -17,8 +16,20 @@ namespace ChattingApp.Persistence
             modelBuilder.Entity<Conversation>()
                .HasOne(c => c.Room)
                .WithOne(r => r.Conversation)
-               .HasForeignKey<Room>(r => r.ConversationId)
+               .HasForeignKey<Conversation>(c=> c.RoomId)
                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Message>()
+                .Property(m => m.Type)
+                .HasConversion(
+                     m => m.ToString(), // this line i store in db
+                     m => (MessageType)Enum.Parse(typeof(MessageType), m)  // this line i Retrieve avaraible from db
+                );
+            modelBuilder.Entity<Message>()
+                .Property(m => m.Direction)
+                .HasConversion(
+                     m => m.ToString(), // this line i store in db
+                     m => (Direction)Enum.Parse(typeof(Direction), m)  // this line i Retrieve avaraible from db
+                );
         }
 
         public DbSet<User> Users { get; set; }

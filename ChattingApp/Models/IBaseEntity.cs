@@ -1,9 +1,9 @@
 ﻿namespace ChattingApp.Models
 {
-    public abstract class IBaseEntity<T>
+    public abstract class IBaseEntity
     {
-        public T Id { get; set; }
+        public int Id { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }

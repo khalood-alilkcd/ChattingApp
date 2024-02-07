@@ -1,12 +1,14 @@
-﻿namespace ChattingApp.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ChattingApp.Models
 {
-    public class User : IBaseEntity<int>
+    public class User : IBaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public Room Room { get; set; }
+        [NotMapped]
+        public Room? Room { get; set; }
+        [NotMapped]
         public IList<Conversation> Conversations { get; set; } = new List<Conversation>();
-
     }
 }

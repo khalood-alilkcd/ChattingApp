@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChattingApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240127004241_init")]
-    partial class init
+    [Migration("20240207063308_IntailCreate")]
+    partial class IntailCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,21 +36,22 @@ namespace ChattingApp.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FromUser")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ToUser")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("from")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("to")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("RoomId")
+                        .IsUnique();
 
                     b.ToTable("Conversations");
                 });
@@ -66,17 +67,19 @@ namespace ChattingApp.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ConversationId")
+                    b.Property<int?>("ConversationId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Direction")
-                        .HasColumnType("int");
+                    b.Property<string>("Direction")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -95,9 +98,6 @@ namespace ChattingApp.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ConversationId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -118,9 +118,6 @@ namespace ChattingApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ConversationId")
-                        .IsUnique();
 
                     b.ToTable("Rooms");
                 });
@@ -144,69 +141,37 @@ namespace ChattingApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoomId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ChattingApp.Models.Conversation", b =>
                 {
-                    b.HasOne("ChattingApp.Models.User", null)
-                        .WithMany("Conversations")
-                        .HasForeignKey("UserId");
+                    b.HasOne("ChattingApp.Models.Room", "Room")
+                        .WithOne("Conversation")
+                        .HasForeignKey("ChattingApp.Models.Conversation", "RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("ChattingApp.Models.Message", b =>
                 {
                     b.HasOne("ChattingApp.Models.Conversation", "Conversation")
-                        .WithMany("Messages")
-                        .HasForeignKey("ConversationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("ConversationId");
 
                     b.Navigation("Conversation");
                 });
 
             modelBuilder.Entity("ChattingApp.Models.Room", b =>
                 {
-                    b.HasOne("ChattingApp.Models.Conversation", "Conversation")
-                        .WithOne("Room")
-                        .HasForeignKey("ChattingApp.Models.Room", "ConversationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Conversation");
-                });
-
-            modelBuilder.Entity("ChattingApp.Models.User", b =>
-                {
-                    b.HasOne("ChattingApp.Models.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("ChattingApp.Models.Conversation", b =>
-                {
-                    b.Navigation("Messages");
-
-                    b.Navigation("Room");
-                });
-
-            modelBuilder.Entity("ChattingApp.Models.User", b =>
-                {
-                    b.Navigation("Conversations");
                 });
 #pragma warning restore 612, 618
         }
