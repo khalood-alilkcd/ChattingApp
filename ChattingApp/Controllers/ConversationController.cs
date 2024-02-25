@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChattingApp.Contracts;
+using ChattingApp.Error_Model;
 using ChattingApp.Models;
 using ChattingApp.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -39,9 +40,10 @@ namespace ChattingApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateConversationAsync([FromBody] Conversation conv)
         {
+            if(conv is null) return BadRequest(new ApiReposnse(400));   
             _convRepo.CreateConvAsync(conv);
             await _repo.Save();
-            return Ok(conv);
+            return CreatedAtAction("GetConversation", new { Id = conv.Id}, conv);
         }
 
         [HttpDelete]
@@ -49,7 +51,7 @@ namespace ChattingApp.Controllers
         {
             _convRepo.DeleteConv(convId);
             await _repo.Save();
-            return Ok(201);
+            return NoContent();
         }
     }
 }

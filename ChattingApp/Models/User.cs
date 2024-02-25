@@ -6,7 +6,7 @@ namespace ChattingApp.Models
     {
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        [NotMapped]
+        
         public Room? Room { get; set; }
         [NotMapped]
         public IList<Conversation> Conversations { get; set; } = new List<Conversation>();

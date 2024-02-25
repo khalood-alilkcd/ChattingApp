@@ -14,21 +14,17 @@ namespace ChattingApp.Repository
 
 
         public async Task<IReadOnlyList<Message>> GetAllMessageAsync(int convId)
-        {
-            var filter = new List<Expression<Func<Message, bool>>>
-            {
-                c => c.Conversation.Id.Equals(convId)
-            };
-            var messageList = await FindAllWithExpression(filter);
+        { 
+            var messageList = await FindAllWithExpression(c => 
+                    c.Conversation.Id.Equals(convId));
             return messageList;
         }
 
-        public async Task<Message> GetMessageAsync(int convId, int msgId)
+        public async Task<Message> GetMessageAsync(int messageId)
         {
             var filter = new List<Expression<Func<Message, bool>>>
             {
-                u => u.Conversation.Id.Equals(convId) ,
-                u => u.Id.Equals(msgId)
+                u => u.Id.Equals(messageId)
             };
             var msg = await FindByIdWithExpressions(filter);
             return msg;
@@ -44,5 +40,10 @@ namespace ChattingApp.Repository
             Delete(msgId);
         }
 
+        public async Task<Message> GetMessagedDbById(int Message)
+        {
+            var message = await GetById(Message);
+            return message;
+        }
     }
 }

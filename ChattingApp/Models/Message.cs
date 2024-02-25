@@ -1,4 +1,6 @@
-﻿namespace ChattingApp.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ChattingApp.Models
 {
     public enum MessageType { TEXT, AUDIO,VIDEO, IMAGE, DOCUMENT }
 
@@ -12,6 +14,7 @@
 
         public string? Content { get; set; }
 
+        
         public Conversation? Conversation { get; set; }
     }
 }

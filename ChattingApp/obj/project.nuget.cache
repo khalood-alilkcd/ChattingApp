@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dK4AABcZMDfMnuEJWjqu0zSJmNJLvntHtOWdvnnE1QySZhicJ4g3wgfMoOYFSSwgmx/Nv9kRAtIAnl51kNkOQQ==",
+  "dgSpecHash": "143yoHtaDhHRdGUwygtvHnTbBcrXbT/wvJXRU/J+67J4bkHRoinHGKc2vtxFgnHifNbWPwemjFDNSSkLu0Q3mw==",
   "success": true,
-  "projectFilePath": "d:\\ChattingApp\\ChattingApp\\ChattingApp.csproj",
+  "projectFilePath": "D:\\ChattingApp\\ChattingApp\\ChattingApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jimmy\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\jimmy\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

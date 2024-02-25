@@ -22,11 +22,7 @@ namespace ChattingApp.Repository
 
         public async Task<IReadOnlyList<User>> GetAllUserByRoomId(int roomId)
         {
-            var filter = new List<Expression<Func<User, bool>>>
-            {
-                u => u.Room.Id.Equals(roomId)
-            };
-            var users = await FindAllWithExpression(filter);
+            var users = await FindAllWithExpression(u => u.Room.Id.Equals(roomId));
             return users;
         }
 

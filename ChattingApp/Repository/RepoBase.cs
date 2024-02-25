@@ -17,14 +17,9 @@ namespace ChattingApp.Repository
         public async Task<IReadOnlyList<T>> GetAll() => await _dbContext.Set<T>().ToListAsync();
 
 
-        public async Task<IReadOnlyList<T>> FindAllWithExpression(List<Expression<Func<T, bool>>> filters)
+        public async Task<IReadOnlyList<T>> FindAllWithExpression(Expression<Func<T, bool>> filter)
         {
-            IQueryable<T> query = _dbContext.Set<T>();
-
-            foreach (var filter in filters)
-            {
-                query = query.Where(filter);
-            }
+            var query = _dbContext.Set<T>().Where(filter);
 
             return await query.ToListAsync();
         }

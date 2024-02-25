@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using ChattingApp.Contracts;
+using ChattingApp.Error_Model;
 using ChattingApp.Models;
 using ChattingApp.Repository;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -33,27 +35,31 @@ namespace ChattingApp.Controllers
             return Ok(rooms);
         }
 
-        [HttpGet("roomId")]
+        [HttpGet("{roomId}")]
         public async Task<IActionResult> GetRoomAsync(int roomId)
         {
             var room = await _roomRepo.GetRoomAsync(roomId);
+            if (room == null) return NotFound(new ApiReposnse(404));
             return Ok(room);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRoomAsync(Room room)
+        public async Task<IActionResult> CreateRoomAsync([FromBody] Room room)
         {
+            if (room is null) return BadRequest(new ApiReposnse(400));
             _roomRepo.CreateRoom(room);
             await _repo.Save();
-            return Ok(201);
+            return NoContent();
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteRoomAsync(int roomId)
         {
+            var room = await _roomRepo.GetRoomAsync(roomId);
+            if (room == null) return NotFound(new ApiReposnse(404));
             _roomRepo.DeleteRoom(roomId);
             await _repo.Save();
-            return Ok(201);
+            return NoContent();
         }
     }
 }

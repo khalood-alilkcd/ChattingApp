@@ -32,6 +32,12 @@ namespace ChattingApp.Repository
         {
             Delete(convId);
         }
+
+        public async Task<Conversation> GetConvByIdDbAsync(int conv)
+        {
+            var conversation = await GetById(conv);
+            return conversation;
+        }
     }
 
 }

@@ -7,11 +7,8 @@ namespace ChattingApp.Models
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
-        [NotMapped]
         public Conversation? Conversation { get; set; }
         [NotMapped]
-
         public IList<User> users = new List<User>();
-
     }
 }

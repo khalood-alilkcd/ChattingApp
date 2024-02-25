@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChattingApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240207063308_IntailCreate")]
-    partial class IntailCreate
+    [Migration("20240215034051_initailCreation")]
+    partial class initailCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,10 +48,15 @@ namespace ChattingApp.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RoomId")
                         .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Conversations");
                 });
@@ -141,10 +146,15 @@ namespace ChattingApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RoomId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Users");
                 });
@@ -157,21 +167,48 @@ namespace ChattingApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ChattingApp.Models.User", "User")
+                        .WithMany("Conversations")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Room");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ChattingApp.Models.Message", b =>
                 {
                     b.HasOne("ChattingApp.Models.Conversation", "Conversation")
-                        .WithMany()
+                        .WithMany("Messages")
                         .HasForeignKey("ConversationId");
 
                     b.Navigation("Conversation");
                 });
 
+            modelBuilder.Entity("ChattingApp.Models.User", b =>
+                {
+                    b.HasOne("ChattingApp.Models.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("ChattingApp.Models.Conversation", b =>
+                {
+                    b.Navigation("Messages");
+                });
+
             modelBuilder.Entity("ChattingApp.Models.Room", b =>
                 {
                     b.Navigation("Conversation");
+                });
+
+            modelBuilder.Entity("ChattingApp.Models.User", b =>
+                {
+                    b.Navigation("Conversations");
                 });
 #pragma warning restore 612, 618
         }
