@@ -8,5 +8,6 @@ namespace ChattingApp.Contracts
         Task<Conversation> GetConvByIdDbAsync(int conv);
         void CreateConvAsync(Conversation conv);
         void DeleteConv(int convId);
+        
     }
 }

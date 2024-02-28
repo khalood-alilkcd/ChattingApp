@@ -6,9 +6,11 @@ namespace ChattingApp.Repository
 {
     public sealed class RoomRepo : RepoBase<Room>, IRoomRepo
     {
+        private readonly AppDbContext _context;
+
         public RoomRepo(AppDbContext context) : base(context)
         {
-            
+            _context=context;
         }
         
 
@@ -32,6 +34,17 @@ namespace ChattingApp.Repository
         public void DeleteRoom(int roomId)
         {
             Delete(roomId);
+        }
+
+        public async Task<Room> GetRoomByName(string name)
+        {
+            var room = await GetRoomByName(name);
+            return room;
+        }
+
+        public async Task<IEnumerable<Room>> GetRoomByUserAsync(User user)
+        {
+            return _context.Rooms.Where(r => r.users.Contains(user)).ToList() ;
         }
     }
 }

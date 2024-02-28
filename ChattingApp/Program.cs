@@ -1,5 +1,6 @@
 using ChattingApp.Error_Model;
 using ChattingApp.Extensions;
+using ChattingApp.Hubs;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,11 +12,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureAppDbContext(builder.Configuration);
+builder.Services.ConfigureCorsPolicy();
 builder.Services.ConfigureRepoBase();
 builder.Services.ConfigureUserRepo();
 builder.Services.ConfigureRoomRepo();
 builder.Services.ConfigureMessageRepo();
 builder.Services.ConfigureConversationRepo();
+builder.Services.AddSignalR();
 
 // configure error response
 builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -46,6 +49,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseRouting();
+
+app.UseCors("CorsPolicy");
+
+app.MapHub<ChatHub>("/chat");
+ 
 
 app.MapControllers();
 

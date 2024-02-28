@@ -44,6 +44,10 @@ namespace ChattingApp.Repository
 
         }
 
-
+        public async Task<User> GetUserByNameAsync(string name)
+        {
+            var user = await GetByName(name);
+            return user;
+        }
     }
 }

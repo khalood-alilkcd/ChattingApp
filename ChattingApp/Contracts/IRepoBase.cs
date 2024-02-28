@@ -8,6 +8,7 @@ namespace ChattingApp.Contracts
         Task<IReadOnlyList<T>> FindAllWithExpression(Expression<Func<T, bool>> filter);
         Task<T> FindByIdWithExpressions(List<Expression<Func<T, bool>>> filters);
         Task<T> GetById(int id);
+        Task<T> GetByName(string name);
         void Create(T entity);
         void Delete(int id);
         Task Save();

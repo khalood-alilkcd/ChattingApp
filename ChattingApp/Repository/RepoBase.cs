@@ -1,6 +1,7 @@
 ﻿using ChattingApp.Contracts;
 using ChattingApp.Models;
 using ChattingApp.Persistence;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -52,5 +53,9 @@ namespace ChattingApp.Repository
             return _dbContext.SaveChangesAsync();
         }
 
+        public async Task<T> GetByName(string name)
+        {
+            return await _dbContext.Set<T>().FindAsync(name);
+        }
     }
 }

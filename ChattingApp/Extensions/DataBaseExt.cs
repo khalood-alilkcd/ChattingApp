@@ -1,5 +1,6 @@
 ﻿using ChattingApp.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace ChattingApp.Extensions
 {
@@ -14,7 +15,15 @@ namespace ChattingApp.Extensions
                 
         }
 
-
+        public static void ConfigureCorsPolicy(this IServiceCollection services)=> 
+            services.AddCors(options => 
+                    options.AddPolicy("CorsPolicy", builder => 
+                        builder.WithOrigins("http://localhost:4200")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials()
+                    )
+        );
         
     }
 }

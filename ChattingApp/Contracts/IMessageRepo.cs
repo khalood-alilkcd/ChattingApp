@@ -10,5 +10,6 @@ namespace ChattingApp.Contracts
         Task<Message> GetMessagedDbById(int messageId);
         void CreateMessage(Message msg);
         void DeleteMessage(int msgId);
+        
     }
 }
