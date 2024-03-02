@@ -19,7 +19,7 @@ builder.Services.ConfigureRoomRepo();
 builder.Services.ConfigureMessageRepo();
 builder.Services.ConfigureConversationRepo();
 builder.Services.AddSignalR();
-
+builder.Services.AddAuthenticationForImageKit();
 // configure error response
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {

@@ -167,3 +167,5 @@ D:\ChattingApp\ChattingApp\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runti
 D:\ChattingApp\ChattingApp\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\ChattingApp\ChattingApp\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 D:\ChattingApp\ChattingApp\obj\Debug\net8.0\ChattingApp.sourcelink.json
+D:\ChattingApp\ChattingApp\bin\Debug\net8.0\Imagekit.dll
+D:\ChattingApp\ChattingApp\bin\Debug\net8.0\Newtonsoft.Json.dll
